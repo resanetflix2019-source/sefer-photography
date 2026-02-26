@@ -7,18 +7,123 @@
 
 <style>
 body {margin:0;background:#0a0a0a;color:#eee;font-family:Arial;}
-nav {position:fixed;top:0;width:100%;background:#000;padding:15px;display:flex;justify-content:space-between;z-index:1000}
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:#000;
+padding:15px;
+display:flex;
+justify-content:space-between;
+z-index:1000
+}
+
 .logo{color:#c9a84c;font-weight:bold}
-.photo-grid{columns:3;gap:10px;padding:100px 20px}
-.photo-card{break-inside:avoid;margin-bottom:10px;position:relative}
-.photo-card img{width:100%;cursor:pointer;border-radius:4px}
-.watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);color:rgba(255,215,0,.2);font-size:20px}
-.photo-overlay{position:absolute;bottom:0;background:rgba(0,0,0,.6);width:100%;padding:10px}
-.add-cart-btn{background:#c9a84c;border:none;padding:5px 10px;cursor:pointer}
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);justify-content:center;align-items:center;z-index:2000}
-.lightbox.open{display:flex}
-.lightbox img{max-width:90%;max-height:90%}
-.lightbox-close{position:absolute;top:20px;right:30px;font-size:30px;color:#fff;background:none;border:none;cursor:pointer}
+
+.photo-grid{
+columns:3;
+gap:15px;
+padding:100px 20px
+}
+
+.photo-card{
+break-inside:avoid;
+margin-bottom:15px;
+position:relative;
+overflow:hidden;
+cursor:pointer;
+background:#111;
+border-radius:6px
+}
+
+.photo-card img{
+width:100%;
+display:block;
+transition:transform .4s
+}
+
+.photo-card:hover img{
+transform:scale(1.05)
+}
+
+.photo-overlay{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+background:linear-gradient(transparent, rgba(0,0,0,.9));
+padding:20px 10px;
+transform:translateY(100%);
+transition:.3s
+}
+
+.photo-card:hover .photo-overlay{
+transform:translateY(0)
+}
+
+.photo-title{
+font-size:14px;
+margin-bottom:5px
+}
+
+.photo-price{
+color:#c9a84c;
+font-weight:bold;
+margin-bottom:8px
+}
+
+.add-cart-btn{
+background:#c9a84c;
+border:none;
+padding:6px 10px;
+cursor:pointer;
+font-size:12px
+}
+
+.watermark{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) rotate(-30deg);
+color:rgba(255,215,0,.2);
+font-size:20px;
+pointer-events:none
+}
+
+/* LIGHTBOX */
+
+.lightbox{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.95);
+justify-content:center;
+align-items:center;
+z-index:2000
+}
+
+.lightbox.open{
+display:flex
+}
+
+.lightbox img{
+max-width:90%;
+max-height:90%;
+object-fit:contain
+}
+
+.lightbox-close{
+position:absolute;
+top:20px;
+right:30px;
+font-size:30px;
+color:#fff;
+background:none;
+border:none;
+cursor:pointer
+}
+
 </style>
 </head>
 
@@ -29,17 +134,13 @@ nav {position:fixed;top:0;width:100%;background:#000;padding:15px;display:flex;j
 <div>Sepet (<span id="cart-count">0</span>)</div>
 </nav>
 
-<section style="padding-top:80px">
+<section>
 <div class="photo-grid" id="photo-grid"></div>
 </section>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
 <button class="lightbox-close">✕</button>
-
-<img id="lightbox-img"
-     src=""
-     onclick="event.stopPropagation()">
-
+<img id="lightbox-img" src="" onclick="event.stopPropagation()">
 </div>
 
 <script>
@@ -96,6 +197,7 @@ const grid=document.getElementById('photo-grid');
 grid.innerHTML='';
 
 photos.forEach(p=>{
+
 const full=p.img.replace('thumbs','full');
 
 const card=document.createElement('div');
@@ -105,16 +207,17 @@ card.innerHTML=`
 <img src="${p.img}" loading="lazy" decoding="async"
 onclick="openLightbox('${full}')">
 
-<div class="watermark">SK ©</div>
+<div class="watermark">SK © PHOTOGRAPHY</div>
 
 <div class="photo-overlay">
-<div>${p.title}</div>
-<div>CHF ${p.price}</div>
+<div class="photo-title">${p.title}</div>
+<div class="photo-price">CHF ${p.price}</div>
 <button class="add-cart-btn" onclick="addToCart(${p.id},event)">Sepete</button>
 </div>
 `;
 
 grid.appendChild(card);
+
 });
 }
 
