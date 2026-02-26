@@ -21,36 +21,90 @@
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: rgba(10,10,10,0.95); backdrop-filter: blur(10px);
-            padding: 18px 5%; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #222;
+            padding: 16px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #222; gap: 16px;
         }
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); letter-spacing: 2px; }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); letter-spacing: 2px; white-space: nowrap; }
+        .nav-links { display: flex; gap: 26px; list-style: none; align-items: center; }
         .nav-links a { color: var(--text); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; }
         .nav-links a:hover { color: var(--gold); }
+
+        .nav-right { display:flex; align-items:center; gap: 12px; }
+
+        .lang-switch { display:flex; gap: 8px; align-items:center; }
+        .lang-btn{
+            background: transparent; color: var(--text-muted);
+            border: 1px solid #333; padding: 8px 10px; cursor:pointer;
+            font-size: 0.8rem; letter-spacing: 1px; transition: all .25s;
+        }
+        .lang-btn:hover{ border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.05); }
+        .lang-btn.active{ border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+
         .cart-btn {
-            background: var(--gold); color: #000; border: none; padding: 10px 20px;
+            background: var(--gold); color: #000; border: none; padding: 10px 16px;
             cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600;
-            font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s;
+            font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s; white-space: nowrap;
         }
         .cart-btn:hover { background: #e8c060; transform: translateY(-1px); }
+
+        @media (max-width: 900px){
+            nav { flex-wrap: wrap; justify-content: center; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+            .nav-right { width: 100%; justify-content: space-between; }
+        }
 
         /* HERO */
         #hero {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 100px 5% 60px;
+            text-align: center; padding: 110px 5% 60px;
             background: linear-gradient(135deg, #0a0a0a 0%, #141414 50%, #0f0f0f 100%);
             position: relative; overflow: hidden;
         }
+        /* soft animated shimmer */
+        #hero::after{
+            content:'';
+            position:absolute; inset:-50%;
+            background: conic-gradient(from 180deg, transparent 0 30%, rgba(201,168,76,0.08) 40%, transparent 55%, rgba(201,168,76,0.04) 70%, transparent 100%);
+            animation: heroSpin 14s linear infinite;
+            filter: blur(10px);
+            opacity: .55;
+        }
+        @keyframes heroSpin{
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         #hero::before {
-            content: ''; position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+            content: ''; position: absolute; width: 650px; height: 650px;
+            background: radial-gradient(circle, rgba(201,168,76,0.10) 0%, transparent 70%);
             top: 50%; left: 50%; transform: translate(-50%, -50%);
+            filter: blur(1px);
         }
         .hero-content { position: relative; z-index: 1; }
-        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
-        .hero-content h1 span { color: var(--gold); }
-        .hero-content p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; letter-spacing: 2px; text-transform: uppercase; }
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 6vw, 5.2rem);
+            font-weight: 900; line-height: 1.05; margin-bottom: 16px;
+            text-shadow: 0 0 22px rgba(201,168,76,0.10);
+        }
+        .hero-content h1 span {
+            color: var(--gold);
+            text-shadow: 0 0 24px rgba(201,168,76,0.35);
+        }
+
+        /* typewriter line */
+        .hero-typed {
+            font-size: 1.05rem; color: var(--text-muted);
+            margin: 0 auto 34px; letter-spacing: 2px; text-transform: uppercase;
+            display:inline-flex; align-items:center; gap: 8px;
+        }
+        .caret{
+            width: 10px; height: 18px; background: rgba(201,168,76,0.85);
+            display:inline-block; border-radius: 1px;
+            animation: blink 1s steps(1,end) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
         .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
         .btn-primary { background: var(--gold); color: #000; padding: 15px 35px; border: none; cursor: pointer; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; }
         .btn-primary:hover { background: #e8c060; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
@@ -76,6 +130,7 @@
         .photo-card {
             break-inside: avoid; margin-bottom: 15px; position: relative;
             overflow: hidden; cursor: pointer; background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.03);
         }
         .photo-card img { width: 100%; display: block; transition: transform 0.5s ease; }
         .photo-card:hover img { transform: scale(1.05); }
@@ -105,7 +160,7 @@
             display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
         }
         @media(max-width: 768px) { #about { grid-template-columns: 1fr; } }
-        .about-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+        .about-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border: 1px solid rgba(255,255,255,0.05); }
         .about-text h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 20px; }
         .about-text p { color: var(--text-muted); line-height: 1.8; margin-bottom: 15px; }
         .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
@@ -114,7 +169,7 @@
         .stat .label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
         /* CONTACT */
-        #contact { padding: 80px 5%; max-width: 700px; margin: 0 auto; }
+        #contact { padding: 80px 5%; max-width: 760px; margin: 0 auto; }
         .contact-form { display: grid; gap: 15px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         @media(max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
@@ -125,6 +180,9 @@
         }
         .form-input:focus { border-color: var(--gold); }
         textarea.form-input { resize: vertical; min-height: 120px; }
+        .contact-note { text-align:center; color: var(--text-muted); margin-top: 12px; font-size: 0.85rem; }
+        .contact-note a { color: var(--gold); text-decoration: none; border-bottom: 1px dashed rgba(201,168,76,0.4); }
+        .contact-note a:hover { border-bottom-color: var(--gold); }
 
         /* FOOTER */
         footer {
@@ -141,7 +199,7 @@
         .modal-overlay.open { display: flex; }
         .modal {
             background: #141414; border: 1px solid #333; padding: 40px;
-            width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;
+            width: 90%; max-width: 520px; max-height: 80vh; overflow-y: auto;
             position: relative;
         }
         .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 25px; color: var(--gold); }
@@ -171,11 +229,6 @@
         .lightbox.open { display: flex; }
         .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
         .lightbox-close { position: absolute; top: 20px; right: 25px; color: white; font-size: 2rem; cursor: pointer; background: none; border: none; }
-
-        /* Tiny helper */
-        .contact-note { text-align:center; color: var(--text-muted); margin-top: 12px; font-size: 0.85rem; }
-        .contact-note a { color: var(--gold); text-decoration: none; border-bottom: 1px dashed rgba(201,168,76,0.4); }
-        .contact-note a:hover { border-bottom-color: var(--gold); }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -183,23 +236,38 @@
 <!-- NAV -->
 <nav>
     <div class="logo">SK PHOTOGRAPHY</div>
+
     <ul class="nav-links">
-        <li><a href="#hero">Ana Sayfa</a></li>
-        <li><a href="#gallery">Galeri</a></li>
-        <li><a href="#about">Hakkımda</a></li>
-        <li><a href="#contact">İletişim</a></li>
+        <li><a href="#hero" data-i18n="nav_home">Ana Sayfa</a></li>
+        <li><a href="#gallery" data-i18n="nav_gallery">Galeri</a></li>
+        <li><a href="#about" data-i18n="nav_about">Hakkımda</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">İletişim</a></li>
     </ul>
-    <button class="cart-btn" onclick="toggleCart()">🛒 Sepet (<span id="cart-count">0</span>)</button>
+
+    <div class="nav-right">
+        <div class="lang-switch" aria-label="Language">
+            <button class="lang-btn active" data-lang="tr">TR</button>
+            <button class="lang-btn" data-lang="de">DE</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <button class="cart-btn" onclick="toggleCart()">
+            🛒 <span data-i18n="cart_btn">Sepet</span> (<span id="cart-count">0</span>)
+        </button>
+    </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
     <div class="hero-content">
-        <p>Profesyonel Fotoğrafçılık</p>
-        <h1>Işığı <span>Yakala</span>,<br>Anı <span>Ölümsüzleştir</span></h1>
+        <div class="hero-typed">
+            <span id="typed-line"></span><span class="caret"></span>
+        </div>
+        <h1 data-i18n-html="hero_title">
+            Işığı <span>Yakala</span>,<br>Anı <span>Ölümsüzleştir</span>
+        </h1>
         <div class="hero-btns">
-            <a href="#gallery" class="btn-primary">Galeriyi Keşfet</a>
-            <a href="#contact" class="btn-outline">İletişime Geç</a>
+            <a href="#gallery" class="btn-primary" data-i18n="hero_btn_gallery">Galeriyi Keşfet</a>
+            <a href="#contact" class="btn-outline" data-i18n="hero_btn_contact">İletişime Geç</a>
         </div>
     </div>
 </section>
@@ -207,16 +275,16 @@
 <!-- GALLERY -->
 <section id="gallery">
     <div class="section-title">
-        <p>Koleksiyon</p>
-        <h2>Fotoğraf Galerisi</h2>
+        <p data-i18n="gallery_kicker">Koleksiyon</p>
+        <h2 data-i18n="gallery_title">Fotoğraf Galerisi</h2>
         <div class="gold-line"></div>
     </div>
     <div class="cat-btns">
-        <button class="cat-btn active" onclick="filterCat('all', this)">Tümü</button>
-        <button class="cat-btn" onclick="filterCat('doga', this)">Doğa</button>
-        <button class="cat-btn" onclick="filterCat('portre', this)">Portre</button>
-        <button class="cat-btn" onclick="filterCat('sehir', this)">Şehir</button>
-        <button class="cat-btn" onclick="filterCat('soyut', this)">Soyut</button>
+        <button class="cat-btn active" onclick="filterCat('all', this)" data-i18n="cat_all">Tümü</button>
+        <button class="cat-btn" onclick="filterCat('doga', this)" data-i18n="cat_nature">Doğa</button>
+        <button class="cat-btn" onclick="filterCat('portre', this)" data-i18n="cat_portrait">Portre</button>
+        <button class="cat-btn" onclick="filterCat('sehir', this)" data-i18n="cat_city">Şehir</button>
+        <button class="cat-btn" onclick="filterCat('soyut', this)" data-i18n="cat_abstract">Soyut</button>
     </div>
     <div class="photo-grid" id="photo-grid"></div>
 </section>
@@ -225,15 +293,15 @@
 <section id="about">
     <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=900&q=80" alt="Fotoğrafçı" class="about-img">
     <div class="about-text">
-        <p style="color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:0.8rem;margin-bottom:10px;">Hakkımda</p>
-        <h2>Merhaba, ben Sefer</h2>
+        <p style="color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:0.8rem;margin-bottom:10px;" data-i18n="about_kicker">Hakkımda</p>
+        <h2 data-i18n="about_title">Merhaba, ben Sefer</h2>
         <div class="gold-line" style="margin:15px 0;"></div>
-        <p>10 yılı aşkın süredir dünyanın dört bir yanında fotoğraf çekiyorum. Her karede bir hikaye anlatmayı, her anı sonsuza taşımayı hedefliyorum.</p>
-        <p>Doğa, portre ve şehir fotoğrafçılığı konusunda uzmanlaşmış, baskı kalitesinde yüksek çözünürlüklü dijital dosyalar sunuyorum.</p>
+        <p data-i18n="about_p1">10 yılı aşkın süredir dünyanın dört bir yanında fotoğraf çekiyorum. Her karede bir hikaye anlatmayı, her anı sonsuza taşımayı hedefliyorum.</p>
+        <p data-i18n="about_p2">Doğa, portre ve şehir fotoğrafçılığı konusunda uzmanlaşmış, baskı kalitesinde yüksek çözünürlüklü dijital dosyalar sunuyorum.</p>
         <div class="stats">
-            <div class="stat"><div class="num">500+</div><div class="label">Fotoğraf</div></div>
-            <div class="stat"><div class="num">50+</div><div class="label">Ülke</div></div>
-            <div class="stat"><div class="num">10+</div><div class="label">Yıl</div></div>
+            <div class="stat"><div class="num">500+</div><div class="label" data-i18n="stat_photos">Fotoğraf</div></div>
+            <div class="stat"><div class="num">50+</div><div class="label" data-i18n="stat_countries">Ülke</div></div>
+            <div class="stat"><div class="num">10+</div><div class="label" data-i18n="stat_years">Yıl</div></div>
         </div>
     </div>
 </section>
@@ -241,44 +309,44 @@
 <!-- CONTACT -->
 <section id="contact">
     <div class="section-title">
-        <p>Bize Ulaşın</p>
-        <h2>İletişim</h2>
+        <p data-i18n="contact_kicker">Bize Ulaşın</p>
+        <h2 data-i18n="contact_title">İletişim</h2>
         <div class="gold-line"></div>
     </div>
 
-    <!-- Formspree ile mail gönderme (server gerekmez) -->
     <!-- Formspree endpoint'i değiştir: https://formspree.io/f/XXXX -->
     <form class="contact-form" action="https://formspree.io/f/mwkgnnzy" method="POST" onsubmit="sendMsg(event)">
         <div class="form-row">
-            <input class="form-input" type="text" name="name" placeholder="Adınız" required>
-            <input class="form-input" type="email" name="email" placeholder="E-posta" required>
+            <input class="form-input" type="text" name="name" data-i18n-ph="ph_name" placeholder="Adınız" required>
+            <input class="form-input" type="email" name="email" data-i18n-ph="ph_email" placeholder="E-posta" required>
         </div>
-        <input class="form-input" type="text" name="subject" placeholder="Konu">
-        <textarea class="form-input" name="message" placeholder="Mesajınız..." required></textarea>
-        <button type="submit" class="btn-primary" style="justify-self:start;">Gönder</button>
+        <input class="form-input" type="text" name="subject" data-i18n-ph="ph_subject" placeholder="Konu">
+        <textarea class="form-input" name="message" data-i18n-ph="ph_message" placeholder="Mesajınız..." required></textarea>
+        <button type="submit" class="btn-primary" style="justify-self:start;" data-i18n="contact_btn_send">Gönder</button>
     </form>
 
     <div class="contact-note">
-        Alternatif: <a href="mailto:info@skphotography.ch">info@skphotography.ch</a>
+        <span data-i18n="contact_alt">Alternatif</span>:
+        <a href="mailto:info@skphotography.ch">info@skphotography.ch</a>
     </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
     <div class="logo" style="margin-bottom:10px;">SK PHOTOGRAPHY</div>
-    <p>© 2026 <span>Sefer Kilic</span>. Tüm hakları saklıdır. Fotoğrafların izinsiz kullanımı yasaktır.</p>
+    <p data-i18n-html="footer_text">© 2026 <span>Sefer Kilic</span>. Tüm hakları saklıdır. Fotoğrafların izinsiz kullanımı yasaktır.</p>
 </footer>
 
 <!-- CART MODAL -->
 <div class="modal-overlay" id="cart-modal">
     <div class="modal">
         <button class="modal-close" onclick="toggleCart()">✕</button>
-        <h3>🛒 Sepetim</h3>
+        <h3 data-i18n="cart_title">🛒 Sepetim</h3>
         <div id="cart-items"></div>
         <div class="cart-total" id="cart-total" style="display:none">
-            <span>Toplam:</span><span id="total-price"></span>
+            <span data-i18n="cart_total">Toplam:</span><span id="total-price"></span>
         </div>
-        <button class="btn-primary" id="checkout-btn" style="width:100%;margin-top:20px;display:none" onclick="checkout()">Satın Al</button>
+        <button class="btn-primary" id="checkout-btn" style="width:100%;margin-top:20px;display:none" onclick="checkout()" data-i18n="cart_buy">Satın Al</button>
     </div>
 </div>
 
@@ -292,8 +360,12 @@
 <div class="notif" id="notif"></div>
 
 <script>
-// 42 foto: thumbs hızlı, full büyük
-// Not: Kategoriler şimdilik "doga". Sonra otomatik kategorize ederiz.
+/* --------------------------
+   1) FOTO VERİSİ
+   - thumbs hızlı (galeri)
+   - full büyük (lightbox)
+--------------------------- */
+// Not: Kategoriler şimdilik "doga". İstersen sonra foto 1-10 sehir vs. otomatik dağıtırız.
 const photos = Array.from({ length: 42 }, (_, i) => ({
     id: i + 1,
     title: `Foto ${i + 1}`,
@@ -303,8 +375,228 @@ const photos = Array.from({ length: 42 }, (_, i) => ({
 }));
 
 let cart = [];
+let currentLang = "tr";
 
-// Galeriyi oluştur
+/* --------------------------
+   2) i18n (TR/DE/EN)
+--------------------------- */
+const I18N = {
+    tr: {
+        typed_line: "Profesyonel Fotoğrafçılık",
+        nav_home: "Ana Sayfa",
+        nav_gallery: "Galeri",
+        nav_about: "Hakkımda",
+        nav_contact: "İletişim",
+        cart_btn: "Sepet",
+
+        hero_title: "Işığı <span>Yakala</span>,<br>Anı <span>Ölümsüzleştir</span>",
+        hero_btn_gallery: "Galeriyi Keşfet",
+        hero_btn_contact: "İletişime Geç",
+
+        gallery_kicker: "Koleksiyon",
+        gallery_title: "Fotoğraf Galerisi",
+        cat_all: "Tümü",
+        cat_nature: "Doğa",
+        cat_portrait: "Portre",
+        cat_city: "Şehir",
+        cat_abstract: "Soyut",
+
+        about_kicker: "Hakkımda",
+        about_title: "Merhaba, ben Sefer",
+        about_p1: "10 yılı aşkın süredir dünyanın dört bir yanında fotoğraf çekiyorum. Her karede bir hikaye anlatmayı, her anı sonsuza taşımayı hedefliyorum.",
+        about_p2: "Doğa, portre ve şehir fotoğrafçılığı konusunda uzmanlaşmış, baskı kalitesinde yüksek çözünürlüklü dijital dosyalar sunuyorum.",
+        stat_photos: "Fotoğraf",
+        stat_countries: "Ülke",
+        stat_years: "Yıl",
+
+        contact_kicker: "Bize Ulaşın",
+        contact_title: "İletişim",
+        ph_name: "Adınız",
+        ph_email: "E-posta",
+        ph_subject: "Konu",
+        ph_message: "Mesajınız...",
+        contact_btn_send: "Gönder",
+        contact_alt: "Alternatif",
+
+        cart_title: "🛒 Sepetim",
+        cart_total: "Toplam:",
+        cart_buy: "Satın Al",
+        cart_empty: "Sepetiniz boş 🛒",
+        cart_remove: "Kaldır",
+
+        notif_added: (t)=>`"${t}" sepete eklendi ✓`,
+        notif_already: "Bu fotoğraf zaten sepetinizde!",
+        notif_sent: "Mesajınız gönderildi! ✓",
+
+        checkout_demo: (total)=>`✅ Demo ödeme!\nToplam: CHF ${total}\n(Bir sonraki adımda Stripe/PayPal ekleyeceğiz.)`,
+
+        footer_text: "© 2026 <span>Sefer Kilic</span>. Tüm hakları saklıdır. Fotoğrafların izinsiz kullanımı yasaktır."
+    },
+    de: {
+        typed_line: "Professionelle Fotografie",
+        nav_home: "Start",
+        nav_gallery: "Galerie",
+        nav_about: "Über mich",
+        nav_contact: "Kontakt",
+        cart_btn: "Warenkorb",
+
+        hero_title: "Licht <span>einfangen</span>,<br>Momente <span>verewigen</span>",
+        hero_btn_gallery: "Galerie ansehen",
+        hero_btn_contact: "Kontakt aufnehmen",
+
+        gallery_kicker: "Kollektion",
+        gallery_title: "Fotogalerie",
+        cat_all: "Alle",
+        cat_nature: "Natur",
+        cat_portrait: "Porträt",
+        cat_city: "Stadt",
+        cat_abstract: "Abstrakt",
+
+        about_kicker: "Über mich",
+        about_title: "Hallo, ich bin Sefer",
+        about_p1: "Seit über 10 Jahren fotografiere ich rund um die Welt. Ich erzähle Geschichten in jedem Bild und halte Momente für immer fest.",
+        about_p2: "Spezialisiert auf Natur-, Porträt- und Stadtfotografie biete ich hochauflösende digitale Dateien in Druckqualität an.",
+        stat_photos: "Fotos",
+        stat_countries: "Länder",
+        stat_years: "Jahre",
+
+        contact_kicker: "Schreib mir",
+        contact_title: "Kontakt",
+        ph_name: "Name",
+        ph_email: "E-Mail",
+        ph_subject: "Betreff",
+        ph_message: "Nachricht...",
+        contact_btn_send: "Senden",
+        contact_alt: "Alternative",
+
+        cart_title: "🛒 Warenkorb",
+        cart_total: "Summe:",
+        cart_buy: "Kaufen",
+        cart_empty: "Dein Warenkorb ist leer 🛒",
+        cart_remove: "Entfernen",
+
+        notif_added: (t)=>`"${t}" wurde hinzugefügt ✓`,
+        notif_already: "Dieses Foto ist bereits im Warenkorb!",
+        notif_sent: "Nachricht gesendet! ✓",
+
+        checkout_demo: (total)=>`✅ Demo-Zahlung!\nSumme: CHF ${total}\n(Als Nächstes bauen wir Stripe/PayPal ein.)`,
+
+        footer_text: "© 2026 <span>Sefer Kilic</span>. Alle Rechte vorbehalten. Unbefugte Nutzung der Fotos ist untersagt."
+    },
+    en: {
+        typed_line: "Professional Photography",
+        nav_home: "Home",
+        nav_gallery: "Gallery",
+        nav_about: "About",
+        nav_contact: "Contact",
+        cart_btn: "Cart",
+
+        hero_title: "Capture the <span>Light</span>,<br>Make Moments <span>Timeless</span>",
+        hero_btn_gallery: "Explore Gallery",
+        hero_btn_contact: "Get in Touch",
+
+        gallery_kicker: "Collection",
+        gallery_title: "Photo Gallery",
+        cat_all: "All",
+        cat_nature: "Nature",
+        cat_portrait: "Portrait",
+        cat_city: "City",
+        cat_abstract: "Abstract",
+
+        about_kicker: "About",
+        about_title: "Hi, I’m Sefer",
+        about_p1: "For over 10 years I’ve been photographing around the world. I aim to tell a story in every frame and preserve moments forever.",
+        about_p2: "Specialized in nature, portrait and city photography, I deliver high-resolution digital files in print quality.",
+        stat_photos: "Photos",
+        stat_countries: "Countries",
+        stat_years: "Years",
+
+        contact_kicker: "Reach out",
+        contact_title: "Contact",
+        ph_name: "Your name",
+        ph_email: "Email",
+        ph_subject: "Subject",
+        ph_message: "Your message...",
+        contact_btn_send: "Send",
+        contact_alt: "Alternative",
+
+        cart_title: "🛒 My Cart",
+        cart_total: "Total:",
+        cart_buy: "Buy",
+        cart_empty: "Your cart is empty 🛒",
+        cart_remove: "Remove",
+
+        notif_added: (t)=>`"${t}" added to cart ✓`,
+        notif_already: "This photo is already in your cart!",
+        notif_sent: "Message sent! ✓",
+
+        checkout_demo: (total)=>`✅ Demo checkout!\nTotal: CHF ${total}\n(Next we’ll add Stripe/PayPal.)`,
+
+        footer_text: "© 2026 <span>Sefer Kilic</span>. All rights reserved. Unauthorized use of photos is prohibited."
+    }
+};
+
+function applyI18n(lang){
+    currentLang = lang;
+    const dict = I18N[lang] || I18N.tr;
+
+    // text nodes
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const k = el.getAttribute("data-i18n");
+        if (dict[k] != null) el.textContent = dict[k];
+    });
+
+    // innerHTML nodes (for spans in hero/footer)
+    document.querySelectorAll("[data-i18n-html]").forEach(el=>{
+        const k = el.getAttribute("data-i18n-html");
+        if (dict[k] != null) el.innerHTML = dict[k];
+    });
+
+    // placeholders
+    document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+        const k = el.getAttribute("data-i18n-ph");
+        if (dict[k] != null) el.setAttribute("placeholder", dict[k]);
+    });
+
+    // update lang attribute
+    document.documentElement.setAttribute("lang", lang);
+
+    // toggle active buttons
+    document.querySelectorAll(".lang-btn").forEach(b=>{
+        b.classList.toggle("active", b.dataset.lang === lang);
+    });
+
+    // update typed line
+    startTypewriter(dict.typed_line);
+
+    // rerender cart labels in modal
+    renderCart();
+}
+
+/* --------------------------
+   3) HERO TYPEWRITER
+--------------------------- */
+let typeTimer = null;
+function startTypewriter(text){
+    const el = document.getElementById("typed-line");
+    if (!el) return;
+    if (typeTimer) clearInterval(typeTimer);
+
+    el.textContent = "";
+    let i = 0;
+    typeTimer = setInterval(()=>{
+        el.textContent = text.slice(0, i);
+        i++;
+        if (i > text.length){
+            clearInterval(typeTimer);
+            typeTimer = null;
+        }
+    }, 45);
+}
+
+/* --------------------------
+   4) GALERİ / SEPET / LIGHTBOX
+--------------------------- */
 function renderGallery(filter = 'all') {
     const grid = document.getElementById('photo-grid');
     grid.innerHTML = '';
@@ -326,53 +618,53 @@ function renderGallery(filter = 'all') {
             <div class="photo-overlay">
                 <div class="photo-title">${p.title}</div>
                 <div class="photo-price">CHF ${p.price}</div>
-                <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">+ Sepete Ekle</button>
+                <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">+ <span>${(currentLang==='de')?'In den Warenkorb':(currentLang==='en'?'Add to Cart':'Sepete Ekle')}</span></button>
             </div>
         `;
         grid.appendChild(card);
     });
 }
 
-// Kategori filtrele
 function filterCat(cat, btn) {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderGallery(cat);
 }
 
-// Sepete ekle
 function addToCart(id, e) {
     e.stopPropagation();
     const photo = photos.find(p => p.id === id);
+    const dict = I18N[currentLang] || I18N.tr;
+
     if (!cart.find(c => c.id === id)) {
         cart.push(photo);
         updateCartCount();
-        showNotif(`"${photo.title}" sepete eklendi ✓`);
+        showNotif(dict.notif_added(photo.title));
     } else {
-        showNotif('Bu fotoğraf zaten sepetinizde!');
+        showNotif(dict.notif_already);
     }
 }
 
-// Sepet sayısı güncelle
 function updateCartCount() {
     document.getElementById('cart-count').textContent = cart.length;
 }
 
-// Sepet modal
 function toggleCart() {
     const modal = document.getElementById('cart-modal');
     modal.classList.toggle('open');
     renderCart();
 }
 
-// Sepet render
 function renderCart() {
     const container = document.getElementById('cart-items');
     const totalDiv = document.getElementById('cart-total');
     const checkoutBtn = document.getElementById('checkout-btn');
+    const dict = I18N[currentLang] || I18N.tr;
+
+    if (!container) return;
 
     if (cart.length === 0) {
-        container.innerHTML = '<div class="empty-cart">Sepetiniz boş 🛒</div>';
+        container.innerHTML = `<div class="empty-cart">${dict.cart_empty}</div>`;
         totalDiv.style.display = 'none';
         checkoutBtn.style.display = 'none';
         return;
@@ -382,7 +674,7 @@ function renderCart() {
         <div class="cart-item">
             <span class="cart-item-name">${item.title}</span>
             <span class="cart-item-price">CHF ${item.price}</span>
-            <button class="cart-remove" onclick="removeFromCart(${item.id})">Kaldır</button>
+            <button class="cart-remove" onclick="removeFromCart(${item.id})">${dict.cart_remove}</button>
         </div>
     `).join('');
 
@@ -392,24 +684,22 @@ function renderCart() {
     checkoutBtn.style.display = 'block';
 }
 
-// Sepetten kaldır
 function removeFromCart(id) {
     cart = cart.filter(c => c.id !== id);
     updateCartCount();
     renderCart();
 }
 
-// Demo ödeme (şimdilik)
 function checkout() {
     if (cart.length === 0) return;
+    const dict = I18N[currentLang] || I18N.tr;
     const total = cart.reduce((sum, i) => sum + i.price, 0);
-    alert(`✅ Demo ödeme!\nToplam: CHF ${total}\n(Bir sonraki adımda Stripe/PayPal ekleyeceğiz.)`);
+    alert(dict.checkout_demo(total));
     cart = [];
     updateCartCount();
     toggleCart();
 }
 
-// Lightbox
 function openLightbox(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.add('open');
@@ -418,7 +708,6 @@ function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
 }
 
-// Bildirim
 function showNotif(msg) {
     const n = document.getElementById('notif');
     n.textContent = msg;
@@ -426,18 +715,32 @@ function showNotif(msg) {
     setTimeout(() => n.classList.remove('show'), 2500);
 }
 
-// Form submit: sayfayı yenilemeden “gönderildi” hissi (Formspree zaten gönderir)
 function sendMsg(e) {
-    // Formspree kullanıyorsan bunu kaldırma; sadece kullanıcıya bildirim veriyoruz.
-    showNotif('Mesajınız gönderildi! ✓');
+    // Formspree gönderimi devam eder, biz sadece kullanıcıya bildirim veriyoruz.
+    const dict = I18N[currentLang] || I18N.tr;
+    showNotif(dict.notif_sent);
 }
 
-// ESC ile lightbox kapatma
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
 });
 
-// Sayfa yüklenince galeriyi oluştur
+/* --------------------------
+   5) LANG SWITCH EVENTS + INIT
+--------------------------- */
+document.querySelectorAll(".lang-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+        const lang = btn.dataset.lang;
+        localStorage.setItem("sk_lang", lang);
+        applyI18n(lang);
+    });
+});
+
+// init language
+const saved = localStorage.getItem("sk_lang");
+applyI18n(saved || "tr");
+
+// first render gallery
 renderGallery();
 </script>
 </body>
