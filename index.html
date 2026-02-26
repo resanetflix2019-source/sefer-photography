@@ -6,25 +6,72 @@
 <title>SK Photography</title>
 
 <style>
-body {margin:0;background:#0a0a0a;color:#eee;font-family:Arial;}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0a0a0a;
+color:#eee;
+scroll-behavior:smooth;
+}
 
 nav{
 position:fixed;
 top:0;
 width:100%;
 background:#000;
-padding:15px;
+padding:15px 30px;
 display:flex;
 justify-content:space-between;
-z-index:1000
+align-items:center;
+z-index:1000;
 }
 
-.logo{color:#c9a84c;font-weight:bold}
+.logo{
+color:#c9a84c;
+font-weight:bold;
+font-size:18px;
+}
+
+nav a{
+color:#fff;
+text-decoration:none;
+margin:0 10px;
+font-size:14px;
+}
+
+.hero{
+height:70vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#000;
+text-align:center;
+}
+
+.hero h1{
+font-size:42px;
+color:#c9a84c;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#aaa;
+}
+
+.btn{
+background:#c9a84c;
+color:#000;
+padding:10px 20px;
+text-decoration:none;
+display:inline-block;
+margin-top:20px;
+}
 
 .photo-grid{
 columns:3;
 gap:15px;
-padding:100px 20px
+padding:120px 20px 40px;
 }
 
 .photo-card{
@@ -32,19 +79,19 @@ break-inside:avoid;
 margin-bottom:15px;
 position:relative;
 overflow:hidden;
-cursor:pointer;
 background:#111;
-border-radius:6px
+border-radius:6px;
+cursor:pointer;
 }
 
 .photo-card img{
 width:100%;
 display:block;
-transition:transform .4s
+transition:.4s;
 }
 
 .photo-card:hover img{
-transform:scale(1.05)
+transform:scale(1.05);
 }
 
 .photo-overlay{
@@ -53,24 +100,19 @@ bottom:0;
 left:0;
 right:0;
 background:linear-gradient(transparent, rgba(0,0,0,.9));
-padding:20px 10px;
+padding:15px;
 transform:translateY(100%);
-transition:.3s
+transition:.3s;
 }
 
 .photo-card:hover .photo-overlay{
-transform:translateY(0)
-}
-
-.photo-title{
-font-size:14px;
-margin-bottom:5px
+transform:translateY(0);
 }
 
 .photo-price{
 color:#c9a84c;
 font-weight:bold;
-margin-bottom:8px
+margin:5px 0;
 }
 
 .add-cart-btn{
@@ -78,7 +120,7 @@ background:#c9a84c;
 border:none;
 padding:6px 10px;
 cursor:pointer;
-font-size:12px
+font-size:12px;
 }
 
 .watermark{
@@ -88,7 +130,7 @@ left:50%;
 transform:translate(-50%,-50%) rotate(-30deg);
 color:rgba(255,215,0,.2);
 font-size:20px;
-pointer-events:none
+pointer-events:none;
 }
 
 /* LIGHTBOX */
@@ -100,17 +142,16 @@ inset:0;
 background:rgba(0,0,0,.95);
 justify-content:center;
 align-items:center;
-z-index:2000
+z-index:2000;
 }
 
 .lightbox.open{
-display:flex
+display:flex;
 }
 
 .lightbox img{
 max-width:90%;
 max-height:90%;
-object-fit:contain
 }
 
 .lightbox-close{
@@ -121,7 +162,30 @@ font-size:30px;
 color:#fff;
 background:none;
 border:none;
-cursor:pointer
+cursor:pointer;
+}
+
+/* CONTACT */
+
+.contact{
+padding:60px 20px;
+background:#111;
+text-align:center;
+}
+
+.contact input,
+.contact textarea{
+width:100%;
+max-width:400px;
+padding:10px;
+margin:8px 0;
+}
+
+footer{
+background:#000;
+padding:20px;
+text-align:center;
+color:#777;
 }
 
 </style>
@@ -131,64 +195,69 @@ cursor:pointer
 
 <nav>
 <div class="logo">SK PHOTOGRAPHY</div>
+
+<div>
+<a href="#">Ana Sayfa</a>
+<a href="#gallery">Galeri</a>
+<a href="#contact">İletişim</a>
+</div>
+
 <div>Sepet (<span id="cart-count">0</span>)</div>
 </nav>
 
-<section>
+<section class="hero">
+<div>
+<h1>SK PHOTOGRAPHY</h1>
+<p>Doğa • Şehir • Portre Fotoğrafçılığı</p>
+<a href="#gallery" class="btn">Galeriyi Gör</a>
+</div>
+</section>
+
+<section id="gallery">
 <div class="photo-grid" id="photo-grid"></div>
 </section>
+
+<!-- LIGHTBOX -->
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
 <button class="lightbox-close">✕</button>
 <img id="lightbox-img" src="" onclick="event.stopPropagation()">
 </div>
 
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+<h2 style="color:#c9a84c">İletişim</h2>
+
+<form action="https://formspree.io/f/mwkgnnzy" method="POST">
+
+<input type="text" name="name" placeholder="Adınız" required>
+<input type="email" name="email" placeholder="Email" required>
+<textarea name="message" placeholder="Mesajınız" required></textarea>
+
+<button class="btn" type="submit">Gönder</button>
+
+</form>
+
+<p style="margin-top:20px;color:#aaa">
+info@skphotography.ch
+</p>
+
+</section>
+
+<footer>
+© 2026 SK Photography — Tüm Hakları Saklıdır
+</footer>
+
 <script>
 
-const photos = [
-{ id:1, title:"Foto 1", price:49, img:"img/thumbs/img (1).jpeg" },
-{ id:2, title:"Foto 2", price:49, img:"img/thumbs/img (2).jpeg" },
-{ id:3, title:"Foto 3", price:49, img:"img/thumbs/img (3).jpeg" },
-{ id:4, title:"Foto 4", price:49, img:"img/thumbs/img (4).jpeg" },
-{ id:5, title:"Foto 5", price:49, img:"img/thumbs/img (5).jpeg" },
-{ id:6, title:"Foto 6", price:49, img:"img/thumbs/img (6).jpeg" },
-{ id:7, title:"Foto 7", price:49, img:"img/thumbs/img (7).jpeg" },
-{ id:8, title:"Foto 8", price:49, img:"img/thumbs/img (8).jpeg" },
-{ id:9, title:"Foto 9", price:49, img:"img/thumbs/img (9).jpeg" },
-{ id:10, title:"Foto 10", price:49, img:"img/thumbs/img (10).jpeg" },
-{ id:11, title:"Foto 11", price:49, img:"img/thumbs/img (11).jpeg" },
-{ id:12, title:"Foto 12", price:49, img:"img/thumbs/img (12).jpeg" },
-{ id:13, title:"Foto 13", price:49, img:"img/thumbs/img (13).jpeg" },
-{ id:14, title:"Foto 14", price:49, img:"img/thumbs/img (14).jpeg" },
-{ id:15, title:"Foto 15", price:49, img:"img/thumbs/img (15).jpeg" },
-{ id:16, title:"Foto 16", price:49, img:"img/thumbs/img (16).jpeg" },
-{ id:17, title:"Foto 17", price:49, img:"img/thumbs/img (17).jpeg" },
-{ id:18, title:"Foto 18", price:49, img:"img/thumbs/img (18).jpeg" },
-{ id:19, title:"Foto 19", price:49, img:"img/thumbs/img (19).jpeg" },
-{ id:20, title:"Foto 20", price:49, img:"img/thumbs/img (20).jpeg" },
-{ id:21, title:"Foto 21", price:49, img:"img/thumbs/img (21).jpeg" },
-{ id:22, title:"Foto 22", price:49, img:"img/thumbs/img (22).jpeg" },
-{ id:23, title:"Foto 23", price:49, img:"img/thumbs/img (23).jpeg" },
-{ id:24, title:"Foto 24", price:49, img:"img/thumbs/img (24).jpeg" },
-{ id:25, title:"Foto 25", price:49, img:"img/thumbs/img (25).jpeg" },
-{ id:26, title:"Foto 26", price:49, img:"img/thumbs/img (26).jpeg" },
-{ id:27, title:"Foto 27", price:49, img:"img/thumbs/img (27).jpeg" },
-{ id:28, title:"Foto 28", price:49, img:"img/thumbs/img (28).jpeg" },
-{ id:29, title:"Foto 29", price:49, img:"img/thumbs/img (29).jpeg" },
-{ id:30, title:"Foto 30", price:49, img:"img/thumbs/img (30).jpeg" },
-{ id:31, title:"Foto 31", price:49, img:"img/thumbs/img (31).jpeg" },
-{ id:32, title:"Foto 32", price:49, img:"img/thumbs/img (32).jpeg" },
-{ id:33, title:"Foto 33", price:49, img:"img/thumbs/img (33).jpeg" },
-{ id:34, title:"Foto 34", price:49, img:"img/thumbs/img (34).jpeg" },
-{ id:35, title:"Foto 35", price:49, img:"img/thumbs/img (35).jpeg" },
-{ id:36, title:"Foto 36", price:49, img:"img/thumbs/img (36).jpeg" },
-{ id:37, title:"Foto 37", price:49, img:"img/thumbs/img (37).jpeg" },
-{ id:38, title:"Foto 38", price:49, img:"img/thumbs/img (38).jpeg" },
-{ id:39, title:"Foto 39", price:49, img:"img/thumbs/img (39).jpeg" },
-{ id:40, title:"Foto 40", price:49, img:"img/thumbs/img (40).jpeg" },
-{ id:41, title:"Foto 41", price:49, img:"img/thumbs/img (41).jpeg" },
-{ id:42, title:"Foto 42", price:49, img:"img/thumbs/img (42).jpeg" }
-];
+const photos = Array.from({length:42}, (_,i)=>({
+id:i+1,
+title:"Foto "+(i+1),
+price:49,
+img:`img/thumbs/img (${i+1}).jpeg`
+}));
 
 let cart=[];
 
@@ -204,13 +273,13 @@ const card=document.createElement('div');
 card.className='photo-card';
 
 card.innerHTML=`
-<img src="${p.img}" loading="lazy" decoding="async"
+<img src="${p.img}" loading="lazy"
 onclick="openLightbox('${full}')">
 
-<div class="watermark">SK © PHOTOGRAPHY</div>
+<div class="watermark">SK ©</div>
 
 <div class="photo-overlay">
-<div class="photo-title">${p.title}</div>
+<div>${p.title}</div>
 <div class="photo-price">CHF ${p.price}</div>
 <button class="add-cart-btn" onclick="addToCart(${p.id},event)">Sepete</button>
 </div>
