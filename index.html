@@ -1,313 +1,444 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SK Photography</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sefer Kilic Photography</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --gold: #c9a84c;
+            --text: #e0e0e0;
+            --text-muted: #888;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
 
-<style>
+        /* NAV */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(10,10,10,0.95); backdrop-filter: blur(10px);
+            padding: 18px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+        .cart-btn {
+            background: var(--gold); color: #000; border: none; padding: 10px 20px;
+            cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600;
+            font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s;
+        }
+        .cart-btn:hover { background: #e8c060; transform: translateY(-1px); }
 
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0a0a0a;
-color:#eee;
-scroll-behavior:smooth;
-}
+        /* HERO */
+        #hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 100px 5% 60px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #141414 50%, #0f0f0f 100%);
+            position: relative; overflow: hidden;
+        }
+        #hero::before {
+            content: ''; position: absolute; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+        .hero-content h1 span { color: var(--gold); }
+        .hero-content p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; letter-spacing: 2px; text-transform: uppercase; }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: var(--gold); color: #000; padding: 15px 35px; border: none; cursor: pointer; font-weight: 700; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: #e8c060; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+        .btn-outline { background: transparent; color: var(--text); padding: 15px 35px; border: 1px solid #444; cursor: pointer; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 
-nav{
-position:fixed;
-top:0;
-width:100%;
-background:#000;
-padding:15px 30px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-z-index:1000;
-}
+        /* GALLERY */
+        #gallery { padding: 80px 5%; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
+        .section-title p { color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; }
+        .gold-line { width: 60px; height: 2px; background: var(--gold); margin: 15px auto; }
 
-.logo{
-color:#c9a84c;
-font-weight:bold;
-font-size:18px;
-}
+        .cat-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+        .cat-btn { background: transparent; border: 1px solid #333; color: var(--text-muted); padding: 8px 20px; cursor: pointer; font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s; }
+        .cat-btn.active, .cat-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.05); }
 
-nav a{
-color:#fff;
-text-decoration:none;
-margin:0 10px;
-font-size:14px;
-}
+        /* GRID */
+        .photo-grid { columns: 3; gap: 15px; }
+        @media(max-width: 900px) { .photo-grid { columns: 2; } }
+        @media(max-width: 500px) { .photo-grid { columns: 1; } }
 
-.hero{
-height:70vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#000;
-text-align:center;
-}
+        .photo-card {
+            break-inside: avoid; margin-bottom: 15px; position: relative;
+            overflow: hidden; cursor: pointer; background: var(--card-bg);
+        }
+        .photo-card img { width: 100%; display: block; transition: transform 0.5s ease; }
+        .photo-card:hover img { transform: scale(1.05); }
+        .photo-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 30px 15px 15px; transform: translateY(100%); transition: transform 0.3s ease;
+        }
+        .photo-card:hover .photo-overlay { transform: translateY(0); }
+        .photo-title { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 5px; }
+        .photo-price { color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 10px; }
+        .watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg);
+            font-family: 'Playfair Display', serif; font-size: 1.2rem; color: rgba(201,168,76,0.25);
+            pointer-events: none; white-space: nowrap; letter-spacing: 3px;
+        }
+        .add-cart-btn {
+            background: var(--gold); color: #000; border: none; padding: 8px 16px;
+            cursor: pointer; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px;
+            width: 100%; transition: all 0.3s;
+        }
+        .add-cart-btn:hover { background: #e8c060; }
 
-.hero h1{
-font-size:42px;
-color:#c9a84c;
-margin-bottom:10px;
-}
+        /* ABOUT */
+        #about {
+            padding: 80px 5%; background: #111;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+        }
+        @media(max-width: 768px) { #about { grid-template-columns: 1fr; } }
+        .about-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+        .about-text h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 20px; }
+        .about-text p { color: var(--text-muted); line-height: 1.8; margin-bottom: 15px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+        .stat { text-align: center; }
+        .stat .num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); }
+        .stat .label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
-.hero p{
-color:#aaa;
-}
+        /* CONTACT */
+        #contact { padding: 80px 5%; max-width: 700px; margin: 0 auto; }
+        .contact-form { display: grid; gap: 15px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media(max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+        .form-input {
+            background: var(--card-bg); border: 1px solid #333; color: var(--text);
+            padding: 14px 16px; font-family: 'Inter', sans-serif; font-size: 0.9rem;
+            transition: border-color 0.3s; outline: none; width: 100%;
+        }
+        .form-input:focus { border-color: var(--gold); }
+        textarea.form-input { resize: vertical; min-height: 120px; }
 
-.btn{
-background:#c9a84c;
-color:#000;
-padding:10px 20px;
-text-decoration:none;
-display:inline-block;
-margin-top:20px;
-}
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 40px 5%; border-top: 1px solid #222;
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        footer span { color: var(--gold); }
 
-.photo-grid{
-columns:3;
-gap:15px;
-padding:120px 20px 40px;
-}
+        /* CART MODAL */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            z-index: 2000; align-items: center; justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: #141414; border: 1px solid #333; padding: 40px;
+            width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;
+            position: relative;
+        }
+        .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 25px; color: var(--gold); }
+        .modal-close { position: absolute; top: 15px; right: 20px; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; }
+        .cart-item-name { font-size: 0.9rem; }
+        .cart-item-price { color: var(--gold); font-weight: 600; }
+        .cart-remove { background: none; border: 1px solid #444; color: #888; padding: 4px 10px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+        .cart-remove:hover { border-color: #e55; color: #e55; }
+        .cart-total { display: flex; justify-content: space-between; margin-top: 20px; font-size: 1.1rem; font-weight: 600; }
+        .cart-total span:last-child { color: var(--gold); }
+        .empty-cart { text-align: center; color: var(--text-muted); padding: 30px 0; }
 
-.photo-card{
-break-inside:avoid;
-margin-bottom:15px;
-position:relative;
-overflow:hidden;
-background:#111;
-border-radius:6px;
-cursor:pointer;
-}
+        /* NOTIFICATION */
+        .notif {
+            position: fixed; bottom: 30px; right: 30px; background: var(--gold); color: #000;
+            padding: 12px 20px; font-weight: 600; font-size: 0.85rem; z-index: 3000;
+            transform: translateY(100px); opacity: 0; transition: all 0.4s; border-radius: 2px;
+        }
+        .notif.show { transform: translateY(0); opacity: 1; }
 
-.photo-card img{
-width:100%;
-display:block;
-transition:.4s;
-}
+        /* LIGHTBOX */
+        .lightbox {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 4000; align-items: center; justify-content: center;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
+        .lightbox-close { position: absolute; top: 20px; right: 25px; color: white; font-size: 2rem; cursor: pointer; background: none; border: none; }
 
-.photo-card:hover img{
-transform:scale(1.05);
-}
-
-.photo-overlay{
-position:absolute;
-bottom:0;
-left:0;
-right:0;
-background:linear-gradient(transparent, rgba(0,0,0,.9));
-padding:15px;
-transform:translateY(100%);
-transition:.3s;
-}
-
-.photo-card:hover .photo-overlay{
-transform:translateY(0);
-}
-
-.photo-price{
-color:#c9a84c;
-font-weight:bold;
-margin:5px 0;
-}
-
-.add-cart-btn{
-background:#c9a84c;
-border:none;
-padding:6px 10px;
-cursor:pointer;
-font-size:12px;
-}
-
-.watermark{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%) rotate(-30deg);
-color:rgba(255,215,0,.2);
-font-size:20px;
-pointer-events:none;
-}
-
-/* LIGHTBOX */
-
-.lightbox{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.95);
-justify-content:center;
-align-items:center;
-z-index:2000;
-}
-
-.lightbox.open{
-display:flex;
-}
-
-.lightbox img{
-max-width:90%;
-max-height:90%;
-}
-
-.lightbox-close{
-position:absolute;
-top:20px;
-right:30px;
-font-size:30px;
-color:#fff;
-background:none;
-border:none;
-cursor:pointer;
-}
-
-/* CONTACT */
-
-.contact{
-padding:60px 20px;
-background:#111;
-text-align:center;
-}
-
-.contact input,
-.contact textarea{
-width:100%;
-max-width:400px;
-padding:10px;
-margin:8px 0;
-}
-
-footer{
-background:#000;
-padding:20px;
-text-align:center;
-color:#777;
-}
-
-</style>
+        /* Tiny helper */
+        .contact-note { text-align:center; color: var(--text-muted); margin-top: 12px; font-size: 0.85rem; }
+        .contact-note a { color: var(--gold); text-decoration: none; border-bottom: 1px dashed rgba(201,168,76,0.4); }
+        .contact-note a:hover { border-bottom-color: var(--gold); }
+    </style>
 </head>
+<body oncontextmenu="return false;">
 
-<body>
-
+<!-- NAV -->
 <nav>
-<div class="logo">SK PHOTOGRAPHY</div>
-
-<div>
-<a href="#">Ana Sayfa</a>
-<a href="#gallery">Galeri</a>
-<a href="#contact">İletişim</a>
-</div>
-
-<div>Sepet (<span id="cart-count">0</span>)</div>
+    <div class="logo">SK PHOTOGRAPHY</div>
+    <ul class="nav-links">
+        <li><a href="#hero">Ana Sayfa</a></li>
+        <li><a href="#gallery">Galeri</a></li>
+        <li><a href="#about">Hakkımda</a></li>
+        <li><a href="#contact">İletişim</a></li>
+    </ul>
+    <button class="cart-btn" onclick="toggleCart()">🛒 Sepet (<span id="cart-count">0</span>)</button>
 </nav>
 
-<section class="hero">
-<div>
-<h1>SK PHOTOGRAPHY</h1>
-<p>Doğa • Şehir • Portre Fotoğrafçılığı</p>
-<a href="#gallery" class="btn">Galeriyi Gör</a>
-</div>
+<!-- HERO -->
+<section id="hero">
+    <div class="hero-content">
+        <p>Profesyonel Fotoğrafçılık</p>
+        <h1>Işığı <span>Yakala</span>,<br>Anı <span>Ölümsüzleştir</span></h1>
+        <div class="hero-btns">
+            <a href="#gallery" class="btn-primary">Galeriyi Keşfet</a>
+            <a href="#contact" class="btn-outline">İletişime Geç</a>
+        </div>
+    </div>
 </section>
 
+<!-- GALLERY -->
 <section id="gallery">
-<div class="photo-grid" id="photo-grid"></div>
+    <div class="section-title">
+        <p>Koleksiyon</p>
+        <h2>Fotoğraf Galerisi</h2>
+        <div class="gold-line"></div>
+    </div>
+    <div class="cat-btns">
+        <button class="cat-btn active" onclick="filterCat('all', this)">Tümü</button>
+        <button class="cat-btn" onclick="filterCat('doga', this)">Doğa</button>
+        <button class="cat-btn" onclick="filterCat('portre', this)">Portre</button>
+        <button class="cat-btn" onclick="filterCat('sehir', this)">Şehir</button>
+        <button class="cat-btn" onclick="filterCat('soyut', this)">Soyut</button>
+    </div>
+    <div class="photo-grid" id="photo-grid"></div>
 </section>
 
-<!-- LIGHTBOX -->
-
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-<button class="lightbox-close">✕</button>
-<img id="lightbox-img" src="" onclick="event.stopPropagation()">
-</div>
+<!-- ABOUT -->
+<section id="about">
+    <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=900&q=80" alt="Fotoğrafçı" class="about-img">
+    <div class="about-text">
+        <p style="color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:0.8rem;margin-bottom:10px;">Hakkımda</p>
+        <h2>Merhaba, ben Sefer</h2>
+        <div class="gold-line" style="margin:15px 0;"></div>
+        <p>10 yılı aşkın süredir dünyanın dört bir yanında fotoğraf çekiyorum. Her karede bir hikaye anlatmayı, her anı sonsuza taşımayı hedefliyorum.</p>
+        <p>Doğa, portre ve şehir fotoğrafçılığı konusunda uzmanlaşmış, baskı kalitesinde yüksek çözünürlüklü dijital dosyalar sunuyorum.</p>
+        <div class="stats">
+            <div class="stat"><div class="num">500+</div><div class="label">Fotoğraf</div></div>
+            <div class="stat"><div class="num">50+</div><div class="label">Ülke</div></div>
+            <div class="stat"><div class="num">10+</div><div class="label">Yıl</div></div>
+        </div>
+    </div>
+</section>
 
 <!-- CONTACT -->
+<section id="contact">
+    <div class="section-title">
+        <p>Bize Ulaşın</p>
+        <h2>İletişim</h2>
+        <div class="gold-line"></div>
+    </div>
 
-<section class="contact" id="contact">
+    <!-- Formspree ile mail gönderme (server gerekmez) -->
+    <!-- Formspree endpoint'i değiştir: https://formspree.io/f/XXXX -->
+    <form class="contact-form" action="https://formspree.io/f/mwkgnnzy" method="POST" onsubmit="sendMsg(event)">
+        <div class="form-row">
+            <input class="form-input" type="text" name="name" placeholder="Adınız" required>
+            <input class="form-input" type="email" name="email" placeholder="E-posta" required>
+        </div>
+        <input class="form-input" type="text" name="subject" placeholder="Konu">
+        <textarea class="form-input" name="message" placeholder="Mesajınız..." required></textarea>
+        <button type="submit" class="btn-primary" style="justify-self:start;">Gönder</button>
+    </form>
 
-<h2 style="color:#c9a84c">İletişim</h2>
-
-<form action="https://formspree.io/f/mwkgnnzy" method="POST">
-
-<input type="text" name="name" placeholder="Adınız" required>
-<input type="email" name="email" placeholder="Email" required>
-<textarea name="message" placeholder="Mesajınız" required></textarea>
-
-<button class="btn" type="submit">Gönder</button>
-
-</form>
-
-<p style="margin-top:20px;color:#aaa">
-info@skphotography.ch
-</p>
-
+    <div class="contact-note">
+        Alternatif: <a href="mailto:info@skphotography.ch">info@skphotography.ch</a>
+    </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-© 2026 SK Photography — Tüm Hakları Saklıdır
+    <div class="logo" style="margin-bottom:10px;">SK PHOTOGRAPHY</div>
+    <p>© 2026 <span>Sefer Kilic</span>. Tüm hakları saklıdır. Fotoğrafların izinsiz kullanımı yasaktır.</p>
 </footer>
 
-<script>
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cart-modal">
+    <div class="modal">
+        <button class="modal-close" onclick="toggleCart()">✕</button>
+        <h3>🛒 Sepetim</h3>
+        <div id="cart-items"></div>
+        <div class="cart-total" id="cart-total" style="display:none">
+            <span>Toplam:</span><span id="total-price"></span>
+        </div>
+        <button class="btn-primary" id="checkout-btn" style="width:100%;margin-top:20px;display:none" onclick="checkout()">Satın Al</button>
+    </div>
+</div>
 
-const photos = Array.from({length:42}, (_,i)=>({
-id:i+1,
-title:"Foto "+(i+1),
-price:49,
-img:`img/thumbs/img (${i+1}).jpeg`
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
+
+<script>
+// 42 foto: thumbs hızlı, full büyük
+// Not: Kategoriler şimdilik "doga". Sonra otomatik kategorize ederiz.
+const photos = Array.from({ length: 42 }, (_, i) => ({
+    id: i + 1,
+    title: `Foto ${i + 1}`,
+    cat: "doga",
+    price: 49,
+    img: `img/thumbs/img (${i + 1}).jpeg`
 }));
 
-let cart=[];
+let cart = [];
 
-function renderGallery(){
-const grid=document.getElementById('photo-grid');
-grid.innerHTML='';
+// Galeriyi oluştur
+function renderGallery(filter = 'all') {
+    const grid = document.getElementById('photo-grid');
+    grid.innerHTML = '';
 
-photos.forEach(p=>{
+    const filtered = filter === 'all' ? photos : photos.filter(p => p.cat === filter);
 
-const full=p.img.replace('thumbs','full');
+    filtered.forEach(p => {
+        const fullSrc = p.img.replace('/thumbs/', '/full/');
 
-const card=document.createElement('div');
-card.className='photo-card';
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+        card.innerHTML = `
+            <img src="${p.img}"
+                 alt="${p.title}"
+                 onclick="openLightbox('${fullSrc}')"
+                 loading="lazy"
+                 decoding="async">
+            <div class="watermark">SK © PHOTOGRAPHY</div>
+            <div class="photo-overlay">
+                <div class="photo-title">${p.title}</div>
+                <div class="photo-price">CHF ${p.price}</div>
+                <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">+ Sepete Ekle</button>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
 
-card.innerHTML=`
-<img src="${p.img}" loading="lazy"
-onclick="openLightbox('${full}')">
+// Kategori filtrele
+function filterCat(cat, btn) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGallery(cat);
+}
 
-<div class="watermark">SK ©</div>
+// Sepete ekle
+function addToCart(id, e) {
+    e.stopPropagation();
+    const photo = photos.find(p => p.id === id);
+    if (!cart.find(c => c.id === id)) {
+        cart.push(photo);
+        updateCartCount();
+        showNotif(`"${photo.title}" sepete eklendi ✓`);
+    } else {
+        showNotif('Bu fotoğraf zaten sepetinizde!');
+    }
+}
 
-<div class="photo-overlay">
-<div>${p.title}</div>
-<div class="photo-price">CHF ${p.price}</div>
-<button class="add-cart-btn" onclick="addToCart(${p.id},event)">Sepete</button>
-</div>
-`;
+// Sepet sayısı güncelle
+function updateCartCount() {
+    document.getElementById('cart-count').textContent = cart.length;
+}
 
-grid.appendChild(card);
+// Sepet modal
+function toggleCart() {
+    const modal = document.getElementById('cart-modal');
+    modal.classList.toggle('open');
+    renderCart();
+}
 
+// Sepet render
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const totalDiv = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    if (cart.length === 0) {
+        container.innerHTML = '<div class="empty-cart">Sepetiniz boş 🛒</div>';
+        totalDiv.style.display = 'none';
+        checkoutBtn.style.display = 'none';
+        return;
+    }
+
+    container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <span class="cart-item-name">${item.title}</span>
+            <span class="cart-item-price">CHF ${item.price}</span>
+            <button class="cart-remove" onclick="removeFromCart(${item.id})">Kaldır</button>
+        </div>
+    `).join('');
+
+    const total = cart.reduce((sum, i) => sum + i.price, 0);
+    document.getElementById('total-price').textContent = `CHF ${total}`;
+    totalDiv.style.display = 'flex';
+    checkoutBtn.style.display = 'block';
+}
+
+// Sepetten kaldır
+function removeFromCart(id) {
+    cart = cart.filter(c => c.id !== id);
+    updateCartCount();
+    renderCart();
+}
+
+// Demo ödeme (şimdilik)
+function checkout() {
+    if (cart.length === 0) return;
+    const total = cart.reduce((sum, i) => sum + i.price, 0);
+    alert(`✅ Demo ödeme!\nToplam: CHF ${total}\n(Bir sonraki adımda Stripe/PayPal ekleyeceğiz.)`);
+    cart = [];
+    updateCartCount();
+    toggleCart();
+}
+
+// Lightbox
+function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+}
+
+// Bildirim
+function showNotif(msg) {
+    const n = document.getElementById('notif');
+    n.textContent = msg;
+    n.classList.add('show');
+    setTimeout(() => n.classList.remove('show'), 2500);
+}
+
+// Form submit: sayfayı yenilemeden “gönderildi” hissi (Formspree zaten gönderir)
+function sendMsg(e) {
+    // Formspree kullanıyorsan bunu kaldırma; sadece kullanıcıya bildirim veriyoruz.
+    showNotif('Mesajınız gönderildi! ✓');
+}
+
+// ESC ile lightbox kapatma
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
 });
-}
 
-function openLightbox(src){
-document.getElementById('lightbox-img').src=src;
-document.getElementById('lightbox').classList.add('open');
-}
-
-function closeLightbox(){
-document.getElementById('lightbox').classList.remove('open');
-}
-
-function addToCart(id,e){
-e.stopPropagation();
-cart.push(id);
-document.getElementById('cart-count').textContent=cart.length;
-}
-
+// Sayfa yüklenince galeriyi oluştur
 renderGallery();
-
 </script>
-
 </body>
 </html>
